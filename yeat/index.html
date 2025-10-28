@@ -598,7 +598,12 @@ html, body, * {
         <div class="separator"></div>
         <div class="socials">
         </div>
-        <div class="views"><img src="https://i.postimg.cc/QtFycFSf/view.png"><span class="view-count">122</span></div>
+        <div class="views" id="view-count">
+  <img src="https://i.postimg.cc/QtFycFSf/view.png">
+  <span>0</span>
+</div>
+
+
       </div>
        <div class="card" id="github-card">
         <img id="avatar-card" class="avatar" src="" alt="Avatar GitHub">
@@ -926,19 +931,15 @@ robloxCard.style.transform = `translateY(0px) rotateX(${rotateX}deg) rotateY(${r
 })();
 </script>
 <script>
-  const viewCountEl = document.querySelector(".view-count");
-  const storageKey = "hasVisited";
+const viewEl = document.querySelector("#view-count span");
+const key = "mon_site_unique"; // change le nom pour ton site
 
-  // Vérifier si l'utilisateur a déjà visité
-  if (!localStorage.getItem(storageKey)) {
-    // Incrémenter le compteur
-    let currentCount = parseInt(viewCountEl.textContent.replace(/,/g, '')) || 0;
-    currentCount += 1;
-    // Mettre à jour l'affichage
-    viewCountEl.textContent = currentCount.toLocaleString();
-    // Marquer comme visité
-    localStorage.setItem(storageKey, "true");
-  }
+fetch(`https://api.countapi.xyz/hit/${key}/visits`)
+  .then(res => res.json())
+  .then(data => {
+    viewEl.textContent = data.value;
+  })
+  .catch(err => console.error(err));
 </script>
 
 </body>
